@@ -1,0 +1,727 @@
+Go to the path where you want your virtual enviroments to reside:
+> cd <my_venv_path>
+Create the virtual environment named "env":
+
+> python -m venv env 
+Add the path to the git ignore file (optional):
+
+> echo env/ >> .gitignore
+Activate the virtual env:
+
+> .\env\Scripts\activate
+
+///////////////////////////////////////////////////////////////////
+
+1) > pip install virtualenv 
+
+2)Now in which ever directory you are, this line below will create a virtualenv there
+
+ > virtualenv myenv
+
+3.1) Now if you are same directory then type, (preferred choice is gitbash)
+ In Windows
+ > myenv\Scripts\activate
+ In gitbash
+ $ source myenv/Scripts/activate
+
+4)
+> deactivate
+
+----------
+
+
+
+
+1. django-admin startproject 'projectname'
+2. cd 'projectname'/
+3. pip install virtualenv(optional if virtualenv not installed)
+4. python -m venv env 	//create a virtual env
+5. source env/Scripts/activate	//in gitbash
+6. python -m pip install --upgrade pip
+7. pip install django
+8. go ahead with your project now
+
+
+To install dependencies, run:
+1. pip install -r requirements.txt
+
+
+
+ -----
+The folder "youtube_python" is the core Django project.
+The folder youtube_python/youtube is the "App" of this Project.
+
+To install dependencies, run:
+1. pip3 install -r requirements.txt
+
+In order to run this project, execute:
+1. cd youtube_python
+2. python manage.py runserver
+
+GITHUB commands:
+
+Follow these steps to project to Github
+1) git init (install git)
+1.1) git status
+2) git add .
+3) git commit -m "msg"
+4) git remote add reponame https://github.com/gitkp11/reponame.git
+Upload of project from scratch require git pull origin master.
+5) git pull reponame master
+6) git push -u reponame master
+
+
+
+git push --force reponame 
+master
+if you have problems uploading!
+
+pip install --upgrade setuptools
+
+################################################################################
+BASIC DJANGO PROJECT TEMPLATE
+django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/development.zip [projectname]
+################################################################################
+
+
+
+
+type in python terminal
+python manage.py runserver
+then head over to the link generated
+type http://127.0.0.1:8000/admin
+username : krunal
+password : MH15DB3761@kp
+==============================================
+THENEWBOSTON DJANGO TUTORIALS FOR BEGINNERS:
+-----------------------------------------------
+1. django-admin startproject nameofproject
+(can rename outside prjet name as both have same name)
+2.manage.py(ignore it DO NOT CHANGE THIS FILE EVER)
+3.init.py (view this project as python package)
+4.settings.py(overall settins for your website)
+5.URLs (table of contents of your site)(most of the time returns webpage)
+6.wsgi(web server gateway interface)
+7.website composed of parts called as APPS eg. each tabs, comments, about us, contact us,blogs etc.
+8.create app by
+"python manage.py startapp nameofapp(here music)"
+	i. migrations (connect your source code with database.)
+	ii. init.py (this app is a python package)
+	iii. admin.py (for admin package)
+	iv. apps.py (basic app config)
+	v. models.py (blueprint of your database)(for eg. for music app- album, songs )
+	vi. tests to check for bugs
+	vii. views (python funcitons which asks for request and returns eg. pages)
+    update the app list in settings with this current app
+    'music.apps.MusiConfig',
+9. (search online) urls written in regular expressions
+10. url(r'^music/')
+	r = regular url expression
+	''= original url comes here
+	music = its our app
+11. all the urls of music app should be in music app hence create new url.py file in your music app
+12. list of urls in music section and then import them to original project url file
+13. from . import views
+	it means import views in your current file(here . means current file)
+14. type in urlpatterns in music app url
+	url(r'^anyappname$'),
+	syntax for any url 
+	url(r'^$'), === default homepage if url is empty
+15. how does your main url know about music url
+	->import include package in your main url to include music_url.py in main url.py
+	like url(r'^mu sic$', include('music.urls')),
+16. VIEWS (sends out HttpResponse)
+	def functionName(request):
+		return HttpResponse("basic html syntax or any html page")
+17.1st user went to our website 
+   we'll go to projects urls
+   there check which url user request
+   here he requests music url == url(r'^music$', include('music.urls')),
+   so goto  music.urls
+   there user just requested  == url(r'^$', views.index, name='index'),
+   goto views look for funcion called index
+   in views its return HttpResponse("basic html syntax or any html page")
+   so it takes us to the requested HTML syntax or page
+18.SET UP YOUR DATABASE
+    default database in django is sqlite
+    we have to connect our app with project.
+19.python manage.py migrate
+    sync up your code with your database
+20.CREATING MODELS(blueprints of our data stored) for our music app
+    class Album(models.Model):  	//inherit from models.Model
+	artist = models.CharField(max_length=250)	//create variables(type text of max_size 250) 
+	here (variables are columns names in our database )
+	...
+    class Song(models.Model):
+	...	(songs needs to be a part of album)
+    	album = models.ForeignKey(album, on_delete=models.CASCADE)
+   
+   PRIMARYKEYS: django has one extra column apart from the our created classes and stores object 
+   //count created by album class (counts no of rows in our database under album column)
+   FOREIGNKEY : red album has primary key 1 so foreign key is 1
+	foreign key is used whenever the object is a part of some another class object
+   ON_DELETE= if we delete album the songs need to delete as well so we cascade(delete them as well)
+21.ACTIVATING MODELS
+   update migrations in your database
+   terminal:
+	python manage.py makemigrations music
+	//pythone manage.py sqlmigrate music 0001(shows which migrations are made)
+	python manage.py migrate 	//applies your migrations
+   project->projet->settings->installed apps-> (models & database in perfect sync or not)
+22. Database APIs
+   terminal:
+	python manage.py shell	//write database cmds here
+	from music.models import Album, Song	//import
+	Album.objects.all[]			//empty currently
+	a = Album(artist= "taylor swift", album_title="red", genre="country", album_logo="url")		
+	//create 1st object
+	a.save()	//save object
+	a.artist	//have a check
+	a.album_title
+	a.id		//primary key
+	a.pk		//primary key	
+	b = Album()	//another way to add object
+	b.artist = "something"
+	b.album_title = "something"
+	b.genre = "something"
+	b.logo = "something"
+	b.save();
+	Album.objects.all()	//check for all objecs in album( doesnt give us full info)
+23. to get full info of objects in shell in models update the info as
+   __str__(self): // create this function
+	return self.album_title + '-' + self.artist
+24. ADMIN INTERFACE
+   terminal
+	python manage.py createsuperuser
+	username: admin
+	email id: admin@admin.com
+	psswd: admin
+	retype psswd: admin
+    goto admin section
+    edit your admin file in music app->admin.py
+	from .models import Album	//import class albums from models in admin
+	admin.site.register(Album)	//album class should have admin interface
+25. WRITING ANOTHER VIEW in music view.py (another webpage)
+    def detail(request):
+	return HttpResponse("detail request returns") 
+
+    in music/url.py
+    # /music/712/
+    url(r'^(?P<album_id>[0-9]+)/$', views.detail, name='detail'),
+    //check this by going to 127.0.0.1:8000/music/72/ or 127.0.0.1:8000/music/anynumber/
+26. CONNECTING TO DATABASE
+    on the homepage pull out all the database info and display it. WE click on it and go
+	 to that particular database
+    in views.py in index function:
+	all_albums = Album.objects.all()
+	html = ''
+	for album in all_albums:
+	  url = '/music/'+ (str)album.id+'/'
+	  html += '<a href="' + url + "'>' + album.album_title + '</a><br>'
+	return HttpResponse(html)
+   Everything here is in python functions so to write that in html we need to seperate html from python
+27. TEMPLATES:
+    seperate your html from your backend
+    in views.py write
+	from django.template import loader
+    make new direcotries & files in /music/templates/music//index.html
+    in index.html write your html code
+    in views index function
+	template = loader.get_template('music/index.html')	//load this tmeplate
+    now we need dictionary to pass info to template, create dictionary in views.py/index function
+	context={
+		'all_albums': all_albums,
+	}
+	return HttpResponse(template.render(context, request))
+    in index.html
+	<ul>
+	   {% for album in all_albums %} 	//django code in html
+	   <li><a href="/music/{{ album.id }}/">{{ album.album_title }}</a> </li>
+	   {% endfor %}
+	</ul>
+
+	if theres no item pop up box so create that using if else
+	{% if all_albums %}
+		<ul> 
+		    ... 
+		</ul>
+	{% else %}
+		<some html code to pop up or print msg>
+	{% endif %}
+28. Load and render template shortcut
+     delete import loader
+     instead type:  from django.shortcuts import render
+     delete template= loader.get_template(..)
+     return render(request, 'music/index.html', context)   //HttpResponse is built inside render
+	 	// request. so need to return it
+29. TO RAISE 404 HTTP ERROR MANUALLY
+    in views.py include:  from django.http import HttpResponse
+    we create new detail.html file. If that file doesn't contain anything (table) with particular
+	 id we make try except
+    in views.py
+	def detail(request, album_id):
+	    try:
+		album=Album.objects.get(pk=album_id)
+	    except Album.DoesNotExist:
+		raise Http404("Album does not exist")
+	    try render(request, 'music/detail.html', context)
+    in detail.html show up the details of albums
+	like:   {{ albums }}
+    if reuqest id does not exist it gives 404 error
+30. ADD SONGS TO OUR DATABASE
+    in models.py:
+    class Song(..):
+	..
+	def __str__(self):
+	   return self.song_title
+    include songs model in admin panel
+    in admin.py:
+	admin.site.register(Song)
+    do we need to make migrations now?
+    -->we are not adding nor deleting attribute but just some settings change
+    yup songs do reflect in admin panel
+   open python manage.py shell in terminal
+	from music.models import Album, Song    // now each song has attribute that points to an album 
+	(reference to an album)
+	album1 = Album.objects.get(pk=1)
+	album1.artist	//it shows 'Taylor swift' which is correct 
+	song = Song() 	//blank Song object
+	song.album = album1
+	song.file_type = 'mp3'
+	song.song_title = 'I hate'
+	song.save()	//1st song added
+31. ANOTHER WAY TO ADD SONGS
+   we can access songs through album as we relate them through foreign key. to access songs type in 
+   	terminal shell
+	album1.song_set.all()	//song_set is class name in lower case with set data-structure
+   another way to add is through created function
+	album1.song_set.create(song_title='I love bacon', file_type='mp3')  //here in create function
+								// we pass in all the attributes of Song class except album attribute
+32. DESIGNING THE DETAILS PAGE
+   in details.html
+	<img src="{{ album.album_logo }}">  //album logo which belong to class album_logo
+	<h1>{{ album.album_title }}</h1>   //album title which belong to class album_title
+	<h3>{{ album.artist }}</h3>
+	<ul>
+	  {% for song in album.song_set.all %}
+	     <li>{{ song.song_title }} - {{ song.file_type }}</li>
+	  {% endfor %}
+	</ul>
+33. REMOVING HARDCODED URLs
+     hardcoded urls(HTML syntaxes in django code) are not good to put in your templates.
+     <li><a href="/music/{{ album.id }}/">{{ album.album_title }}</a> </li>
+	here album.id is django code and remaining html code is hard coded.
+       	in music/url.py we mentioned name in url in urlpatterns as 
+        #/music/712/
+    url(r'^(?P<album_id>[0-9]+)/$', views.detail, name='detail'),
+    here details gives details about #/music/712/ this address. (here 712 is album_id)
+	instead of writing  <li><a href="/music/{{ album.id }}/">{{ album.album_title }}</a> </li>
+	we can write  <li><a href="{% url 'detail' album.id %}">{{ album.album_title }}</a> </li>
+34. NAMESPACE AND HTTP 404 SHORTCUT
+	if we have more apps which take same index file's attribute like if we have video app as well
+	which takes same detail view in index file then how do we differentiate between music and video 
+	detail view
+	so we use namespaceing in our url.py file
+	in url.py    add line : app_name= 'music' 
+	before url patterns. Now in index.html we can use 'music:detail' in href link file
+   HTTP 404 shortcut:
+	in views.py:
+	  in def detail: try:  ...  except  ...  return format
+	we import:
+	  from django.shortcuts import render, get_object_or_404
+	  def detail(request, album_id):
+ 		album = get_object_or_404(Album, pk=album_id)
+		return render(request, 'music/detail.html', {'album': album})
+
+35. SIMPLE FORM:	
+    im models.py: inside class Song
+	is_favorite = models.BooleanField(default = false)
+	then do migrations in terminal and update databases
+    create favourites' urls maps. whenever we favourite song we are not directed to some other page.
+    But we can just be in the same page and just make that song favourite.
+    so we create fav. url as
+	#/music/<album_id>/favorite/
+	url(r'^(?P<album_id>[0-9]+)/favorite/$', views.favorite, name='favorite'),
+    ADDING FORMS TO THE TEMEPLATE: in details.py
+     convert the list item into form item. so delete <ul>...</ul> tag & include
+     1st include section for error msg:
+	{% if error_message %}
+	  <p>{{ error_message }}</p>
+	{% endif %}
+	
+	<form action="{% url 'music:favorite' album.id %}" method="post">
+		{% csrf_token %}
+		{% for song in album.song_set.all %}
+			<input type="radio" id="song{{ forloop.counter }}" name="song" value="{{ song.id }}" />
+			<label for="song{{ forloop.counter }}">  
+				{{ song.song_title }}
+				{% if song.is_favorite %}
+	  			<p>{{ add msg as fav or add star image }}</p>
+				{% endif %}
+			</label><br>
+		{% endfor %}
+		<input type="submit" value="favorite"/>
+	</form>
+     //put star logo in front of fav. songs
+     whenever user submits this form all data is send to music:favorite url and the 
+	 view function for this url
+     is views.favorite function. in views.py we add favorite function
+        import Songs model
+	def favorite(request, album_id):
+	   album = get_objjet_or_404(Album, pk=album_id)
+	   try:
+		selected_song = album.song_set.get(pk=request.POST['song'])  //it stores song id
+	   except (KeyError, Song.DoesNotExist):
+		return render(request, 'music/detail.html', {
+			'album': album, 'error_message': "You did not select the valid song"
+		})
+	   else:
+	      selected_song.is_favorite = !selected_song.is_favorite
+	      selected_song.save()
+	    return render(request, 'music/detail.html', {'album': album})
+36.BOOTSTRAP & STATIC FILES
+	include css in templates. our own css are called static files in new directory
+	music/static/music/( images, style.css, )
+	in style.css: change background as body{ background: white url("images/background.png");}
+	include css in index.html by:
+	 {% load staticfiles %}
+	 //add bootstrap files links here
+	 <link rel="stylesheet" type="text/css" href="{% static 'music/styel.css' %}" />
+	 //build nav bar
+	 <nav class="navbar navbar-default">
+	 <div class="container">
+	 	<div class="navbar-header"> 
+		 <a class="navbar-brand" href="{% url 'music:index' %}">Viberr</a> 
+		 </div>
+	 </div> </nav>
+37. NAVIGATION MENU:
+		in index.html under {% load staticfiles %} add bootstrap fontcss jquery bootstrapJS 
+		files and one link file to link style.css to our music folder.
+		dark nav bar just put navbar-default to navbar-inverse
+		if device width is small include menu button
+		<nav class="navbar navbar-inverse">
+		 <div class="container-fluid">
+		  <div class="navbar-header">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+		     <span class="icon-bar"></span> //three lines for menu button on small screen
+			 <span class="icon-bar"></span>
+			 <span class="icon-bar"></span>
+			</button>
+		    <a class="navbar-brand" href="{% url 'music:index' %}">Viberr</a>
+		  </div>
+		  //include albums button songs button search bar logout button
+		  <div class="collapse navbar-collapse">
+		   <ul class="nav navbar-nav">
+		 	<li class="active">
+				<a href="{% url 'music:index' %}">
+				 <span class="glyphicon glyphicon-cd" aria-hidden="true"></span>&nbsp Albums
+				</a>
+			</li>
+			<li class="">
+				<a href="{% url ' ' %}">
+				 <span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp Songs
+				</a>
+			</li>
+		   </ul>
+
+		   <form class="navbar-form navbar-left" role="search" method="get" action="#">
+		    <div class="form-group">
+			<input type="text" class="form-control" name="q" value="">	
+			</div>
+			<button type="submit" class="btn btn-default">search	</button>
+		   </form>
+		   <ul class="nav navbar-nav navbar-right"> 
+			 <li class="">
+				<a href="{% url ' ' %}">
+				 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp Add Album
+				</a>
+			</li>
+			<li class="">
+				<a href="{% url ' ' %}">
+				 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp logout
+				</a>
+			</li>
+		   </ul>
+		  </div>
+		
+		</div></nav>
+	//if we want to edit our default bootstrap
+	go to style.css : .navbar{ border-radius: 0;}  .navbar-brand{font-family: 'font name', cursive}
+38. CREATING BASE TEMPLATES:
+	 create detail.html in template/music folder and copy all staticfiles(css, script, bootstrap links) 
+	 + navbar class line in detail.html
+	how many times do we copy this? So we break a rule never repeat a code. Make a GENERIC BLUEPRINT
+	tha never changes items no matter on what page we are. So in template/music we make new file base.html
+	copy title, meta charset, static files, background, navbar(whole of navbar class), 
+	so basic structure of each page is created. We need to include other stuff in body like index.html body
+	or detail body. For that in base template we make variable called block.
+	after navbar in base.html
+	{% block body %}
+	{% endblock %}
+	</body></html>
+	include template base in each file
+	in index.html: 1st line we write
+	{% extends 'music/base.html' %}
+	//whatever we want to display in body we surround it by block
+
+	{% block body %}
+		... index.html body here
+	{% endblock %}
+	same thing with our details page
+	change title on every page. So if we want to change some part of base theme only for particular page
+	include block code on it. Like if we want title to change on every diff page but title is in base.html
+	<title>{% block title %}Viberr{% endblock %}</title>
+	now to change title of details page. Write: <title>{% block title %}Album Details{% endblock %}</title>
+39. GENERIC VIEWS
+	Every website has a list of objects & when we click on that object we have details of that object
+	We have list of albums when we click we have details of individual object
+	instead of what we made earlier create veiws like this
+	views.py:
+		from django.views import generic
+		from .models import Album
+			//1st view is list view of all album 2nd one is details view
+		class IndexView(generic.ListView):
+			template_name='music/index.html'		//we are using index.html templates to display albums
+			def get_queryset(self):
+				return Album.objects.all()
+
+		class DetailView(generic.DetailView):
+			model = Album
+			template_name = 'music/detail.html'
+	in url.py: //nothing will change just add few lines
+		 each url pattern is hooked up to a view function but we dont have any function in view file
+		 so treat each class in view.py as view function
+		so edit the urls as: url(r'^$', views.IndexView.as_view(), name='index'),
+		and each detail view expects primary key so replace album_id with primary key "pk"
+	in index.html: replace all_albums with object_list //object list is the default name of the list which
+	//catches all the list from index. to rename it and use our manually created list we make
+	in views.py:
+		class IndexView(...):
+			templ...
+			context_object_name = 'all_albums'		//all_albums is the name of list now
+40. MODEL FORMS:		//help us speed up development when we include forms in our apps by
+	//1. Generating actual HTML code 2.Taking care of basic form validation 3. Saving that data to database
+	in models.py: add
+		from django.core.urlresolvers import reverse
+		//under class Album
+		def get_absolute_url(self):
+			return reverse('music:detail', kwargs={'pk': self.pk})	//send PK to detail view
+	in views.py:
+		from django.views.generic.edit import CreateView, UpdateView, DeleteView
+		class AlbumCreate(CreateView):
+			model = Album
+			fields = ['artist', 'album_title', 'genre', 'album_logo']
+	in urls.py: 		//assign url pattern to new CreateView function
+		url(r'album/add/$',views.AlbumCreate.as-view(), name='album-add'),]	// #music/album/add/
+41.	MODELFORM AND CREATEVIEW:
+	create new html in/music/templates/music/album_form.html
+	design form view
+	in that we have lots of imputs to take. That way we have to include form input again and again
+	so we create a generic form template & include it
+	create new file form-template.html in music/template/music/here
+	{% for field in form %}
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<span class="text-danger small">{{ field.errors }}</span>
+			</div>
+			<label class="control-label col-sm-2">{{ field.label_tag }} </label>
+			<div class="col-sm-10">{{ field }}</div>
+		</div>
+	{% endfor %}
+	in url.py: add link which adds songs
+	in base.html: update link in front of add album as
+		<a href="{% url 'music:album-add' %}">
+42. UPDATE VIEW AND DELETE VIEW
+	in models include
+	from django.core.urlresolvers import reverse_lazy
+	in models.py:
+		class AlbumUpdate(UpdateView):
+			models = Album
+			fields=['artist', 'album_title', 'genre', 'album_logo']
+		class AlbumDelete(DeleteView):  	//after pressing on delete button the details page
+										//doesnt exits for that album. We use reverse_lazy module
+			model = Album
+			success_url=reverse_lazy('music:index')		//after deleting we are redirected to the homepage
+	in url.py: update you urlpatterns to make them link to the updateView & deleteView
+		url(r'album/(?P<pk>[0-9]+)/$', views.AlbumUpdate.as-view(), name='album-update'),]
+		// #music/album/2/
+		url(r'album/(?P<pk>[0-9]+)/delete/$', views.AlbumDelete.as-view(), name='album-delete'),]
+		// #music/album/2/delete/
+	in index.html: link delete button to the url in url's file
+		<form action="{% url 'music:delete' album.id %}" method....cntd  ">
+43. UPLOAD FILES:  //click a button browse your computer and add files
+	delete all your old albums in your admin section
+	in models.py:
+		instead of album_logo to be a character field change it to file field()
+		album_logo=models.FileField()	//as we have changed structure of our database we need
+										//to migrate the changes
+ 	if we upload image where do we put it
+	in website/settings.py:
+		add two lines after STATIC_URL
+		MEDIA_ROOT = os.path.join(BASE_DIR, 'media') //root url in your computer where the images will be stored
+		MEIDA_URL = '/media/'	//references the relative url which browsers use for accessing files over HTTP
+	in websites/urls.py:
+		from django.conf import settings
+		from django.conf.urls.static import static
+
+		if settings.DEBUG:	//if debug mode is true in production mode to check for error but turn it false
+							//in live server when fully produced
+			urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+			urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	in index.html:	//the album logo is not just a piece of text, its object now
+		<img src="{{ album.album_logo.url }}" class="img-responsive">
+		//change it in details page as well
+		//now the media directory is generated automatically in project section along with music and website
+44. USER REGISTRATION:
+	//in music app create forms.py
+	//we inherit forms from user and then overwrite whatever data we want to overwrite
+	in forms.py:
+		from django.contrib.auth.models import User
+		from django import forms
+
+		class UserForm(forms.ModelForm):
+			password = forms.CharField(widget=forms.PasswordInput)
+			class Meta:		//info about your class
+				model = User
+				fields = ['username','email','password']
+	in views.py:
+		from django.shortcuts import render, redirect
+		form django.contrib.auth import authenticate, login
+		from django.views import generic
+		from django.views.generic import View
+		from .models import Album
+		from .forms import UserForm
+45. USER MODEL AND CREATING ACCOUNTS:
+	in views.py:
+		class UserFormView(View):
+			form_class = UserForm 		//basic blueprint
+			template_name = 'music/registration_form.html'
+			//we can update get request and post request here else we can also use default function
+			def get(self, request):
+				form = self.form_class(None)
+				return render(request, self.template_name, {'form': form})
+
+			def post(self, request):
+				form = self.form_class(request.POST)
+				if form.is_valid():		//take info and store it in database
+					user = form.save(commit=False)		//creates an object named user & doesnt save it
+					//cleaned (normalized) data
+					username = form.cleaned_data['username']
+					password = form.cleaned_data['password']
+					user.set_password(password)		//change user password
+					user.save()
+46. USER AUTHENTICATION AND LOGIN:
+	continue in views.py:
+		//returns user objects if credentials are correct
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_active:	//accnt is not banned
+				login(request, user)
+				return redirect('music:index')	//redirect to index page after successful registration
+	return render(request, self.template_name, {'form': form})	//if user didnt exists show blank form
+	in music/urls.py:
+	add url after index url as
+		url(r'^register/$',views.UserFormView.as-view(), name='register'),
+	in templates/music/ create new file registration_form.html:
+	copy album_form content paste it in registration_form
+	change title, heading,
+
+47. REST API INTRODUCTION:	//we create our rest api
+	//what is rest api?
+	//we created our twitter app. but instead of computer we now have to run it in iphones
+	//so how iphones connect to our databases. So such complexities are avoided by creating rest api
+	//REST API IS A WAY IN WHICH ANY DEVICE CAN HAVE ACCESS TO OUR WEBSITES DATABASE FROM A COMMON FORMAT
+	//USING JSON. If we have this to communicate between our website and any device then we can create
+	//android apps & softwares
+	start with fresh project
+	in terminal install rest framework using
+	pip install djangorestframework
+	create basic app in terminal as
+	python manage.py startapp companies		//stock price app
+	in settings.py:
+	installed_apps=[
+		'rest_framework',
+		'companies.apps.CompaniesConfig',
+	]
+	in models.py:
+	class stock(models.Model):
+		ticker = models.CharField(max_length=10)	//ticker is companies names
+		open = models.FloatField()		//opening price of stock
+		close = models.FloatField()		//closing price of stock
+		volume = models.IntergerField() //how many people traded during that day
+		def __str__(self):
+			return self.ticker
+	in admin.py: //add and delete stocks
+		from django.contrib import admin
+		from .models import stock
+
+		admin.site.register(stock)
+		//migrate your changes
+		//now create superuser in terminal
+48. REST API SERIALIZER JSON
+	//serializer class is a class that converts this HTML data into json data
+	//whenever user requests a website it sends it basic webpages to work in browsers
+	//now we want to send them json. so thats what serializer class is.
+	create new file serializer.py in companies app
+	in seriallizer.py:	//it takes browser data and converts it to data which can be
+						//saved on hard drive or can be transported on network
+		from rest_framework import serializers
+		from .models import Stock
+
+		class StockSerializer(serializers.ModelSerializer):
+			class Meta:
+				model = Stock
+				fields = ('ticker', 'volume') //whatever attributes we want to
+				//send back after converting to json.(eg. some id or primary key)
+				fields = '__all__'		//we can use above fields structure to send
+				 						//some specific data or this to send all data
+49. REST API VIEW REQUEST AND RESPONSE
+	in views.py: import get_object_or_404(manual error page if data doesnt exists),
+	//APIView(normal view return api data), Response(send response status), status, stock, stockserializer
+
+	class StockList(APIView):		//lists all stocks or creates new one
+		def get(self, request):	//if this request is made it returns all stocks what we have
+			stocks = Stock.objects.all()
+			serializer = StockSerializer(stocks, many=True)	//convert or serialize classes
+			return Response(seriallizer.data)
+
+		def post(self):	//create a new stock
+
+	in website/url.py:
+		from rest_framework.urlpatterns import format_suffix_patterns
+		from companies import views
+
+		urlpatterns=[
+			url(...)
+			url(r'^stocks/', views.StockList.as_view()),
+		]
+		urlpatterns = format_suffix_patterns(urlpatterns)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
